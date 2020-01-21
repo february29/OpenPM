@@ -49,21 +49,76 @@ module.exports = {
         });
     },
     register: (req, res) => {
-        User.create(req.body, (err, user) => {
-            if (err) {
-                return res.send({
-                    code: 500,
-                    msg: '用户创建失败',
-                    data: err.errmsg
+
+        //参数检查
+        var par = req.method == 'GET'?req.query:req.body;
+        console.log("请求参数：", par);
+        if (!par.username||!par.password){
+            return  res.json({
+                code: '-1',
+                msg:'参数异常',
+            })
+        }
+
+
+        User.getUserByUsername(par.username,function (err, result) {
+            if (!result){
+                let  user = new User({
+                    name:par.name,
+                    phone:par.phone,
+                    o_phone:par.o_phone,
+                    e_mail:par.e_mail,
+                    photo:par.photo,
+                    username:par.username,
+                    password:par.password,
+
+
                 })
-            } else {
-                return res.send({
-                    code: 200,
-                    msg: '用户成功',
-                    data: user
+                user.save(function (err, result) {
+                    if (err) {
+                        return next(err);
+                    }
+                    // 插入成功的话就会得到结果
+                    let uid = result.insertId;
+                    if (uid === 0) {
+                        // 插入失败
+                        return res.json({
+                            code: -3,
+                            msg: '插入失败'
+                        });
+                    }else{
+                        res.json({
+                            code: 200,
+                            msg: 'success'
+                        });
+
+                    }
+                })
+
+            }else{
+                res.json({
+                    code: '-2',
+                    msg:'用户已经存在',
+
                 })
             }
         })
+
+        // User.create(req.body, (err, user) => {
+        //     if (err) {
+        //         return res.send({
+        //             code: 500,
+        //             msg: '用户创建失败',
+        //             data: err.errmsg
+        //         })
+        //     } else {
+        //         return res.send({
+        //             code: 200,
+        //             msg: '用户成功',
+        //             data: user
+        //         })
+        //     }
+        // })
     },
     loginout: (req, res) => {
         req.session.sessionID = null

@@ -4,7 +4,6 @@ const path = require('path');
 var async = require("async");
 
 const _config = require('../config/config')
-
 // 数据库配置
 let config = {
   connectionLimit : 500,

@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 // check token
 // app.use(function (req, res, next) {
-//   // 我这里知识把登陆和注册请求去掉了，其他的多有请求都需要进行token校验
+//   // 我这里只是把登陆和注册请求去掉了，其他的多有请求都需要进行token校验
 //   if (req.url != '/login' && req.url != '/register' && req.url != '/favicon.ico' && req.url != '/.well-known/apple-app-site-association') {
 //
 //     var par = req.method == 'GET'?req.query:req.body;
@@ -77,7 +77,7 @@ app.use('/upload', upload)
 app.use((req, res, next) => {
   if (res.status(404)) {
     return res.sendStatus('cant find that! 404')
-  } else {
+  } else {深深的
     return next()
   }
 })
@@ -91,7 +91,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-//
+
 // app.listen(process.env.PORT || CONFIG.port, () => {
 //   console.log('HTTP Server is running in http://localhost:3000' )
 // })

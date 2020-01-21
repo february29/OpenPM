@@ -89,7 +89,7 @@ User.getUserByDepId = function(depId ,callback){
  */
 User.prototype.save = function (callback) {
     // 这里直接使用mysql中内置的这个now()函数获取当前的时间信息
-    db.query('INSERT ignore INTO users SET ?'
+    db.query('INSERT ignore INTO user SET ?'
         , {
             name:this.name,
             phone:this.phone,
